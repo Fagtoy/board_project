@@ -1,0 +1,14 @@
+{% extends "basic.html" %}
+
+
+{% block title %}Найти объявление{% endblock %}
+
+
+{% block content %}
+<form method="post">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="Искать">
+</form>
+<input type=button value="Предыдущая страница" onClick="javascript:history.go(-1);">
+{% endblock %}

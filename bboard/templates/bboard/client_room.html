@@ -1,0 +1,17 @@
+{% extends "basic.html" %}
+
+
+{% block title %}Личный кабинет{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+<h2>Уважаемый, {{ user.username }}, это ваш личный кабинет, выберите, что вы хотите сделать.</h2>
+<p><a href="{% url 'bboard:register_page' %}">Зарегистрировать другой аккаунт</a></p>
+<p><a href="{% url 'bboard:logout' %}">Выйти</a></p>
+{% else %}
+<h2>Для начала <a href="{% url 'bboard:login' %}">войдите в аккаунт</a>!</h2> 
+<h2><a href="{% url 'bboard:register_page' %}">Зарегистрироваться</a>!</h2>
+{% endif %}
+<input type=button value="Предыдущая страница" onClick="javascript:history.go(-1);">
+{% endblock %}

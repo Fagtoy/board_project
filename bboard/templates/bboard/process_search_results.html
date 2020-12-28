@@ -1,0 +1,20 @@
+{% extends "basic.html" %}
+
+
+{% block title %}Результаты поиска{% endblock %}
+
+
+{% block content %}
+{% if bbs %}
+	{% for bb in bbs %}
+	<div>
+		<h2><a href="{% url 'bboard:detail_bb' bb.pk %}">{{ bb.title }}</a></h2>
+		<p>{{ bb.content }}</p>
+		<p><p>{{ bb.published|date:"d.m.Y H:i:s" }}</p>
+	</div>
+	{% endfor %}
+{% else %}
+<h2>По вашему запросу ничего не найдено :(</h2>
+{% endif %}
+<input type=button value="Предыдущая страница" onClick="javascript:history.go(-1);">
+{% endblock %}

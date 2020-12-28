@@ -1,0 +1,18 @@
+{% extends "basic.html" %}
+
+
+{% block title %}Удаление рубрики{% endblock %}
+
+
+{% block content %}
+<h2>Удаление рубрики: <a href="{% url 'bboard:by_rubric' rubric.pk %}">{{ rubric.name }}</a></h2>
+<p>Объявления, которые относятся к данной рубрике:</p>
+{% for bb in bbs %}
+	<p><a href="{% url 'bboard:detail_bb' bb.pk %}">{{ bb.title }}</p>
+{% endfor %}
+<form method="post">
+	{% csrf_token %}
+	<input type="submit" value="Удалить">
+</form>
+<input type=button value="Предыдущая страница" onClick="javascript:history.go(-1);">
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "basic.html" %}
+{% load thumbnail %}
+
+{% block title %}{{ current_bb.title }}{% endblock %}
+
+{% block content %}
+
+
+<h1>Рубрика: <a href="{% url 'bboard:by_rubric' current_bb.rubric.pk %}">{{ current_bb.rubric.name }}</a></h1>
+<h1><a href="{% url 'bboard:add' %}">Добавить объявление</a></h1>
+<h1>Объявление: {{ current_bb.title }}</h1>
+<h1>Цель объявления: {{ current_bb.kind }}</h1>
+{% if current_bb.image %}
+<img src="{{ current_bb.image.url }}" alt="{{ current_bb.title }}">
+<img src="{{ current_bb.image|thumbnail_url:'default' }}">
+{% endif %}
+<h1>Описание: <strong>{{ current_bb.content }}</strong></h1>
+<h1>Цена: <strong>{{ current_bb.price }}</strong></h1>
+<p>Создатель: {{ current_bb.creator }}</p>
+
+<em><strong>{{ current_bb.published|date:"d.m.Y H:i:s" }}</strong></em>
+
+{% if request.user == current_bb.creator %}
+<em><a href="{% url 'bboard:edit' current_bb.pk %}">Изменить объявление</a></em>
+{% endif %}
+
+<hr>
+
+{% if request.user == current_bb.creator %}
+<p><a href="{% url 'bboard:delete' current_bb.pk %}">Удалить объявление</a></p>
+{% endif %}
+
+<hr>
+<input type=button value="Предыдущая страница" onClick="javascript:history.go(-1);">
+<hr>
+
+<form action = "{% url 'bboard:leave_comment' current_bb.id %}" method="POST">
+
+	{% csrf_token %}
+	
+	<textarea name="text" required="" placeholder="Текст комментария" cols ="30" rows="10"></textarea><br>
+
+	<button type="submite"> Оставить комментарий </button>
+
+</form>
+
+<hr>
+
+{% if latest_comments_list %}
+
+	{% for c in latest_comments_list %}
+		<p>
+			<strong>{{c.author_name}}</strong>
+			<p>{{c.comm_text}}</p>
+		</p>
+	{% endfor %}
+
+{% else %}
+Комментарии не найдены! Станьте первым)
+{% endif %}
+
+<hr>
+
+{% endblock %}
